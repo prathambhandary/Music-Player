@@ -40,16 +40,15 @@
             </div>
             <div class="hr"></div> 
             <div class="next">
-                <div class="upcoming-song">
-                    <h1 id="upcomingSong"></h1>
+                <div class="upcoming-song" id="upcomingSong">
+                    <h1>{{ upcoming_song }}</h1> <!-- Song title -->
                 </div>
                 <div style="height: auto; width: 10%;"></div>
                 <div class="volume-control">
-                    <!-- Volume control with icon -->
                     <label for="volumeSlider" style="background-image: url(/static/images/volume.png); background-size: contain; background-position: center; height: 25px; width: 25px; border-radius: 25px;"></label>
                     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
                 </div>  
-            </div>       
+            </div>                              
         </div>
     </div>
 </body>
@@ -75,6 +74,13 @@
     function updateUpcomingSong() {
         const nextSongIndex = (currentIndex + 1) % songList.length;
         upcomingSongDisplay.textContent = songList[nextSongIndex];
+        
+        // Check if the upcoming song title exceeds 15 characters
+        if (upcomingSongDisplay.textContent.length > 15) {
+            upcomingSongDisplay.style.animation = 'scroll 10s linear infinite';
+        } else {
+            upcomingSongDisplay.style.animation = 'none';
+        }
     }
 
     // Update progress bar and time as the song plays
@@ -143,6 +149,7 @@
 
     // Set initial upcoming song
     updateUpcomingSong();
+
 </script>
 
 
