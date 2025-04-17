@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Gothic+Condensed+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <div class="poster"></div>
+        <div class="card">
+            <h1 class="title">Song Title</h1>
+            <h1 class="artist">Artist</h1>
+            
+            <audio id="audioPlayer" src=""></audio>
+
+            <div class="player">
+                <span id="currentTime">00:00</span>
+                <input type="range" id="progressBar" value="0" min="0" step="1">
+                <span id="duration">00:00</span>
+            </div>            
+            <div class="controls">
+                <div class="button-masala">
+                    <button class="play-previous"></button>
+                </div>
+                <div class="button-masala-play">
+                    <button class="play"></button>
+                </div>
+                <div class="button-masala">
+                    <button class="play-next"></button>
+                </div>
+            </div>
+            <div class="hr"></div> 
+            <div class="next">
+                <div class="upcoming-song">
+                    <h1>Song Title</h1>
+                </div>
+                <div style="height: auto; width: 10%;"></div>
+                <div class="volume-control">
+                    <label for="volumeSlider" style="background-image: url(/static/images/volume.png); background-size: contain; background-position: center; height: 25px; width: 25px; border-radius: 25px;"></label>
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+                </div>  
+            </div>       
+        </div>
+    </div>
+</body>
+
+<script>
+    const audio = document.getElementById('audioPlayer');
+const progressBar = document.getElementById('progressBar');
+const currentTimeDisplay = document.getElementById('currentTime');
+const durationDisplay = document.getElementById('duration');
+const volumeSlider = document.getElementById('volumeSlider');
+
+// Update progress bar and time as the song plays
+audio.addEventListener('timeupdate', () => {
+    // Update progress bar
+    progressBar.max = audio.duration;
+    progressBar.value = audio.currentTime;
+
+    // Update current time and total duration display
+    currentTimeDisplay.textContent = formatTime(audio.currentTime);
+    durationDisplay.textContent = formatTime(audio.duration);
+});
+
+// Seek when user drags the progress bar
+progressBar.addEventListener('input', () => {
+    audio.currentTime = progressBar.value;
+});
+
+// Volume control
+volumeSlider.addEventListener('input', () => {
+    audio.volume = volumeSlider.value;
+});
+
+// Format time in mm:ss format
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+</script>
+
+</html>

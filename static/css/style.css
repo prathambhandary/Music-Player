@@ -1,0 +1,202 @@
+:root {
+    --font-name: 'Special Gothic Condensed One', sans-serif;
+    --bg-color: #e53845;
+    --color1: #eefbf0;
+    --color2: #ecd27b;
+    --color3: #376e8c;
+    --color4: #447a9d;
+}
+
+body {
+    background-color: var(--bg-color);
+    padding: 15px;
+    font-family: var(--font-name);
+    padding: 30px;
+}
+
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.poster {
+    background-image: url(/static/images/groovebox.png);
+    height: 35em;
+    width: 35em;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.card {
+    margin-left: 200px;
+    height:auto;
+    width: 480px;
+    background-color: var(--color2);
+    border-radius: 50px;
+    padding: 70px;
+    padding-top: 30px;
+}
+
+h1 {
+    margin: 0;
+}
+
+.title{
+    color: var(--color3);
+    font-size: 60px;
+}
+.artist{
+    font-size: 30px;
+    color: var(--bg-color);
+}
+.player {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+#progressBar {
+    width: 100%;
+    appearance: none;
+    height: 5px;
+    background: var(--bg-color);
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+#progressBar::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: var(--color3);
+    cursor: pointer;
+    border: none;
+}
+#progressBar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background: var(--color3);
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    border: none;
+    margin-top: -3px; /* 🔄 change this to -5px or -4px based on how it looks */
+}
+
+.controls {
+    display: flex;
+    justify-content: center; /* centers the buttons horizontally */
+    gap: 1rem; /* optional: adds space between buttons */
+    margin-top: 1rem;
+}
+
+.button-masala, .button-masala-play {
+    background-color: var(--bg-color);
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.play, .play-previous, .play-next {
+    height: 20px;
+    width: 20px;
+    border: 0;
+    background-color: var(--bg-color);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.play {
+    background-image: url(/static/images/pause.png);
+    background-color: var(--color3);
+}
+.play-previous {
+    background-image: url(/static/images/back.png);
+}
+.play-next {
+    background-image: url(/static/images/next.png);
+}
+.button-masala-play {
+    background-color: var(--color3);
+}
+
+.hr{
+    background-color: var(--color3);
+    height: 4px;
+    border-radius: 2.5px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.volume-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;                        
+    gap: 10px;
+    margin-top: 20px;
+    color: var(--color3);
+    font-size: 18px;
+    background-color: var(--bg-color);
+    border-radius: 15px;
+    height: 50px;
+    width: 40%;
+}
+
+#volumeSlider {
+    width: 100px;
+    appearance: none;
+    height: 5px;
+    background: var(--color2);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: var(--color3);
+    border-radius: 50%;
+    border: none;
+}
+
+#volumeSlider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background: var(--color3);
+    border-radius: 50%;
+    border: none;
+}
+
+.next {
+    display: flex;
+}
+.upcoming-song {
+    margin-top: 20px;
+    width: 50%;
+    height: 50px;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+}
+.upcoming-song {
+    color: var(--color2);
+}
+#currentTime, #duration {
+    font-size: 14px;
+    color: var(--color3);
+    margin: 0 10px;
+}
