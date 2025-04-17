@@ -106,7 +106,7 @@ h1 {
     align-items: center;
 }
 
-.play, .play-previous, .play-next {
+.play, .play-previous, .play-next, .pause {
     height: 20px;
     width: 20px;
     border: 0;
@@ -116,8 +116,12 @@ h1 {
     background-repeat: no-repeat;
 }
 
-.play {
+.pause {
     background-image: url(/static/images/pause.png);
+    background-color: var(--color3);
+}
+.play {
+    background-image: url(/static/images/play.png);
     background-color: var(--color3);
 }
 .play-previous {
@@ -199,4 +203,26 @@ h1 {
     font-size: 14px;
     color: var(--color3);
     margin: 0 10px;
+}
+
+.upcoming-song {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+}
+
+.upcoming-song h1 {
+    display: inline-block;
+    position: absolute;
+    animation: scroll 10s linear infinite; /* Adjust the duration (10s) as needed */
+}
+
+@keyframes scroll {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: -100%;
+    }
 }
