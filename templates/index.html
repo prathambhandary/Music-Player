@@ -12,17 +12,15 @@
 </head>
 <body data-songs='{{ songs|tojson }}' data-current-index='0'>
     <div class="main">
-        <div class="poster"></div>
+        <div class="poster"><img id="coverImage" src="/static/cover/{{ current_song[2] }}" alt="Cover" style="height: 30em; width: 30em; border-radius: 20px;"></div>
         <div class="card">
-            <!-- Display the song title dynamically -->
-            <h1 class="title">{{ current_song }}</h1>
-            <h1 class="artist">Artist</h1>
+            <h1 class="title">{{ current_song[0]|replace('.mp3', '') }}</h1>
+            <h1 class="artist">{{ current_song[1] }}</h1>
             
             <!-- Audio player with dynamic source -->
-            <audio id="audioPlayer" src="{{ url_for('static', filename='music/'+ current_song) }}" autoplay></audio>
+            <audio id="audioPlayer" src="{{ url_for('static', filename='music/' + current_song[0]) }}" autoplay></audio>
 
             <div class="player">
-                <!-- Current time and duration of the song -->
                 <span id="currentTime">00:00</span>
                 <input type="range" id="progressBar" value="0" min="0" step="1">
                 <span id="duration">00:00</span>
@@ -41,7 +39,7 @@
             <div class="hr"></div> 
             <div class="next">
                 <div class="upcoming-song" id="upcomingSong">
-                    <h1>{{ upcoming_song }}</h1> <!-- Song title -->
+                    <h1>{{ upcoming_song }}</h1> 
                 </div>
                 <div style="height: auto; width: 10%;"></div>
                 <div class="volume-control">
@@ -54,7 +52,6 @@
 </body>
 
 <script>
-    // Get elements for audio player, progress bar, and volume control
     const audio = document.getElementById('audioPlayer');
     const progressBar = document.getElementById('progressBar');
     const currentTimeDisplay = document.getElementById('currentTime');
@@ -62,63 +59,66 @@
     const volumeSlider = document.getElementById('volumeSlider');
     const playButton = document.getElementById('playButton');
     const nextButton = document.querySelector('.play-next');
+    const prevButton = document.querySelector('.play-previous');
     const upcomingSongDisplay = document.querySelector('.upcoming-song h1');
+    const coverImage = document.getElementById('coverImage');
+    const titleDisplay = document.querySelector('.title');
+    const artistDisplay = document.querySelector('.artist');
 
-    // Get songs list and current index from body data attributes
     let songList = JSON.parse(document.body.dataset.songs);
 
-// Shuffle using Fisher-Yates algorithm
+    // Shuffle using Fisher-Yates
     for (let i = songList.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [songList[i], songList[j]] = [songList[j], songList[i]];
     }
 
     let currentIndex = parseInt(document.body.dataset.currentIndex);
-
     let isPlaying = false;
 
-    // Function to update upcoming song display
     function updateUpcomingSong() {
-        const nextSongIndex = (currentIndex + 1) % songList.length;
-        upcomingSongDisplay.textContent = songList[nextSongIndex];
-        
-        // Check if the upcoming song title exceeds 15 characters
-        if (upcomingSongDisplay.textContent.length > 15) {
-            upcomingSongDisplay.style.animation = 'scroll 10s linear infinite';
-        } else {
-            upcomingSongDisplay.style.animation = 'none';
-        }
+        const nextIndex = (currentIndex + 1) % songList.length;
+        const [filename] = songList[nextIndex];
+        const name = filename.replace('.mp3', '');
+        upcomingSongDisplay.textContent = name;
+
+        upcomingSongDisplay.style.animation = 
+            name.length > 15 ? 'scroll 10s linear infinite' : 'none';
     }
 
-    // Update progress bar and time as the song plays
-    audio.addEventListener('timeupdate', () => {
-        // Update progress bar
-        progressBar.max = audio.duration;
-        progressBar.value = audio.currentTime;
+    function updatePlayer([filename, artist, cover]) {
+        audio.src = `/static/music/${filename}`;
+        titleDisplay.textContent = filename.replace('.mp3', '');
+        artistDisplay.textContent = artist;
+        coverImage.src = `/static/cover/${cover}`;
+    }
 
-        // Update current time and total duration display
-        currentTimeDisplay.textContent = formatTime(audio.currentTime);
-        durationDisplay.textContent = formatTime(audio.duration);
-    });
-
-    // Seek when user drags the progress bar
-    progressBar.addEventListener('input', () => {
-        audio.currentTime = progressBar.value;
-    });
-
-    // Volume control
-    volumeSlider.addEventListener('input', () => {
-        audio.volume = volumeSlider.value;
-    });
-
-    // Format time in mm:ss format
     function formatTime(seconds) {
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // Play/Pause button logic
+    // Time update
+    audio.addEventListener('timeupdate', () => {
+        progressBar.max = audio.duration;
+        progressBar.value = audio.currentTime;
+
+        currentTimeDisplay.textContent = formatTime(audio.currentTime);
+        durationDisplay.textContent = formatTime(audio.duration);
+    });
+
+    // Progress bar seek
+    progressBar.addEventListener('input', () => {
+        audio.currentTime = progressBar.value;
+    });
+
+    // Volume
+    volumeSlider.addEventListener('input', () => {
+        audio.volume = volumeSlider.value;
+    });
+
+    // Play/pause
     playButton.addEventListener('click', () => {
         if (isPlaying) {
             audio.pause();
@@ -132,47 +132,36 @@
         isPlaying = !isPlaying;
     });
 
-    // Next song button logic
+    // Next song
     nextButton.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % songList.length; // Loop back to start
-        const nextSong = songList[currentIndex];
-
-        // Update audio source and play
-        audio.src = `/static/music/${nextSong}`;
+        currentIndex = (currentIndex + 1) % songList.length;
+        updatePlayer(songList[currentIndex]);
         audio.play();
-
-        // Update UI
-        document.querySelector('.title').textContent = nextSong;
-        updateUpcomingSong();  // Update upcoming song display
         isPlaying = true;
         playButton.classList.remove('play');
         playButton.classList.add('pause');
-    });const prevButton = document.querySelector('.play-previous');
+        updateUpcomingSong();
+    });
 
+    // Previous song
     prevButton.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + songList.length) % songList.length; // Loop to end if needed
-        const prevSong = songList[currentIndex];
-
-        // Update audio source and play
-        audio.src = `/static/music/${prevSong}`;
+        currentIndex = (currentIndex - 1 + songList.length) % songList.length;
+        updatePlayer(songList[currentIndex]);
         audio.play();
-
-        // Update UI
-        document.querySelector('.title').textContent = prevSong;
-        updateUpcomingSong();  // Update upcoming song display
         isPlaying = true;
         playButton.classList.remove('play');
         playButton.classList.add('pause');
+        updateUpcomingSong();
     });
 
-
-    // Automatically go to the next song when the current one ends
+    // Auto next on song end
     audio.addEventListener('ended', () => {
-        nextButton.click(); // Programmatically trigger the next button
+        nextButton.click();
     });
 
-    // Set initial upcoming song
+    // Initial setup
+    updatePlayer(songList[currentIndex]);
     updateUpcomingSong();
-
 </script>
+
 </html>
