@@ -233,3 +233,44 @@ h1 {
         left: -100%;
     }
 }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card, .poster {
+    animation: fadeInUp 0.8s ease-out both;
+}
+button {
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+button:hover {
+    transform: scale(1.1);
+}
+
+.note {
+    position: absolute;
+    color: #fff;
+    font-size: 1.5rem;
+    animation: floatUp 3s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-200px) rotate(360deg);
+    }
+}
