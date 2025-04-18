@@ -7,6 +7,14 @@
     --color4: #447a9d;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 body {
     background-color: var(--bg-color);
     padding: 15px;
@@ -19,7 +27,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .poster {
