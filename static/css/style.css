@@ -12,6 +12,7 @@ body {
     padding: 15px;
     font-family: var(--font-name);
     padding: 30px;
+    margin: 0;
 }
 
 .main{

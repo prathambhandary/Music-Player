@@ -1,4 +1,5 @@
 import os
+from database import retrieve_artist
 
 def get_songs(app):
     music_folder = os.path.join(app.static_folder, 'music')
@@ -8,5 +9,6 @@ def get_songs(app):
     i = 0
     for song in x:
         sang = song.replace(".mp3", ".jpg")
-        new_list.append([song, "Artist", sang])
+        print(song)
+        new_list.append([song, retrieve_artist(song.replace("mp3", "")), sang])
     return new_list
