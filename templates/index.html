@@ -147,7 +147,24 @@
         isPlaying = true;
         playButton.classList.remove('play');
         playButton.classList.add('pause');
+    });const prevButton = document.querySelector('.play-previous');
+
+    prevButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + songList.length) % songList.length; // Loop to end if needed
+        const prevSong = songList[currentIndex];
+
+        // Update audio source and play
+        audio.src = `/static/music/${prevSong}`;
+        audio.play();
+
+        // Update UI
+        document.querySelector('.title').textContent = prevSong;
+        updateUpcomingSong();  // Update upcoming song display
+        isPlaying = true;
+        playButton.classList.remove('play');
+        playButton.classList.add('pause');
     });
+
 
     // Automatically go to the next song when the current one ends
     audio.addEventListener('ended', () => {
