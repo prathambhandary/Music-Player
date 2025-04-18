@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
-    <link rel="stylesheet" href="/static/css/style-mobile.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,7 +65,14 @@
     const upcomingSongDisplay = document.querySelector('.upcoming-song h1');
 
     // Get songs list and current index from body data attributes
-    const songList = JSON.parse(document.body.dataset.songs);
+    let songList = JSON.parse(document.body.dataset.songs);
+
+// Shuffle using Fisher-Yates algorithm
+    for (let i = songList.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [songList[i], songList[j]] = [songList[j], songList[i]];
+    }
+
     let currentIndex = parseInt(document.body.dataset.currentIndex);
 
     let isPlaying = false;
