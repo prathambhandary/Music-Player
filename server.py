@@ -1,17 +1,25 @@
 from flask import Flask, render_template
 from songs import get_songs
+import os, sys
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-@app.route("/")
-def home():
-    songs = get_songs(app)
+    @app.route("/")
+    def home():
+        songs = get_songs(app)
+
+        if songs:
+            current_song = songs[0]
+            return render_template("index.html", current_song=current_song, songs=songs)
+        
+        return render_template("index.html", current_song="No Songs Found", songs=[])
     
-    if songs:
-        current_song = songs[0]  # First song as current
-        return render_template("index.html", current_song=current_song, songs=songs)
-    
-    return render_template("index.html", current_song="No Songs Found", songs=[])
-
-if __name__ == "__main__":
-    app.run(debug=True, port=2000)
+    return app
+def resource_path(relative_path):
+    """Get absolute path to resource (handles PyInstaller case too)"""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
