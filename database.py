@@ -30,3 +30,22 @@ def retrieve_artist(song_name):
         add_song(song_name, artist)
         conn.commit()
         return artist
+    
+def edit_artist():
+    conn = sqlite3.connect(r'C:\Users\HP\OneDrive\Desktop\Pratham\0day\Code Challenge\Music-Player\artist.db')
+    cursor = conn.cursor()
+    
+    song_name = input("Enter the song title you want to update: ")
+    cursor.execute("SELECT artist FROM songs WHERE title LIKE ?", (f"%{song_name}%",))
+    result = cursor.fetchone()
+    
+    if result:
+        print(f"Current artist for '{song_name}': {result[0]}")
+        new_artist = input("Enter new artist name: ")
+        cursor.execute("UPDATE songs SET artist = ? WHERE title = ?", (new_artist, song_name))
+        conn.commit()
+        print(f"Artist updated to '{new_artist}' for song '{song_name}'.")
+    else:
+        print(f"No song found with title '{song_name}'.")
+
+    conn.close()
