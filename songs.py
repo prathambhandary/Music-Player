@@ -9,6 +9,13 @@ def get_songs(app):
     i = 0
     for song in x:
         sang = song.replace(".mp3", ".jpg")
-        print(song)
+        # print(song.replace("mp3", ""))
+        # print(retrieve_artist(song.replace("mp3", "")))
         new_list.append([song, retrieve_artist(song.replace("mp3", "")), sang])
+        # print()
+
     return new_list
+
+from flask import Flask
+app = Flask(__name__)
+get_songs(app)

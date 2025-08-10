@@ -8,9 +8,11 @@ def create_app():
     @app.route("/")
     def home():
         songs = get_songs(app)
+        print(songs)
 
         if songs:
             current_song = songs[0]
+            print(current_song)
             return render_template("index.html", current_song=current_song, songs=songs)
         
         return render_template("index.html", current_song="No Songs Found", songs=[])

@@ -31,21 +31,43 @@ def retrieve_artist(song_name):
         conn.commit()
         return artist
     
-def edit_artist():
+def edit_song_name():
     conn = sqlite3.connect(r'C:\Users\HP\OneDrive\Desktop\Pratham\0day\Code Challenge\Music-Player\artist.db')
     cursor = conn.cursor()
     
-    song_name = input("Enter the song title you want to update: ")
-    cursor.execute("SELECT artist FROM songs WHERE title LIKE ?", (f"%{song_name}%",))
+    id = input("Enter the id you want to update: ")
+    cursor.execute("SELECT title FROM songs WHERE id LIKE ?", (f"%{id}%",))
     result = cursor.fetchone()
     
     if result:
-        print(f"Current artist for '{song_name}': {result[0]}")
-        new_artist = input("Enter new artist name: ")
-        cursor.execute("UPDATE songs SET artist = ? WHERE title = ?", (new_artist, song_name))
+        print(f"Current title for '{id}': {result[0]}")
+        new_title = input("Enter new title name: ")
+        cursor.execute("UPDATE songs SET title = ? WHERE id = ?", (new_title, id))
         conn.commit()
-        print(f"Artist updated to '{new_artist}' for song '{song_name}'.")
+        print(f"Title updated to '{new_title}' for id '{id}'.")
     else:
-        print(f"No song found with title '{song_name}'.")
-
+        print(f"No song found with id '{id}'.")
+    conn.commit()
     conn.close()
+
+def delete_row_by_id(row_id):
+    try:
+        # Connect to the database
+        conn = sqlite3.connect("artist.db")
+        cursor = conn.cursor()
+
+        # Create a safe SQL delete query
+        query = f"DELETE FROM songs WHERE id = ?"
+        cursor.execute(query, (row_id,))
+        
+        # Commit changes and check affected rows
+        conn.commit()
+        if cursor.rowcount > 0:
+            print(f"✅ Deleted row with id={row_id} from 'songs'")
+        else:
+            print(f"⚠️ No row found with id={row_id} in 'songs'")
+
+    except sqlite3.Error as e:
+        print(f"❌ SQLite error: {e}")
+    finally:
+        conn.close()

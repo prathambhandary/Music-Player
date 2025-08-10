@@ -15,8 +15,10 @@
     <div class="main">
         <div class="poster"><img id="coverImage" src="/static/cover/{{ current_song[2] }}" alt="Cover" style="height: 30em; width: 30em; border-radius: 20px;"></div>
         <div class="card">
-            <h1 class="title">{{ current_song[0]|replace('.mp3', '') }}</h1>
-            <h1 class="artist">{{ current_song[1] }}</h1>
+            <div class="boom">
+                <h1 class="title">{{ current_song[0]|replace('.mp3', '') }}</h1>
+            </div>
+                <h1 class="artist">{{ current_song[1] }}</h1>
             
             <!-- Audio player with dynamic source -->
             <audio id="audioPlayer" src="{{ url_for('static', filename='music/' + current_song[0]) }}" autoplay></audio>
@@ -64,6 +66,7 @@
     const upcomingSongDisplay = document.querySelector('.upcoming-song h1');
     const coverImage = document.getElementById('coverImage');
     const titleDisplay = document.querySelector('.title');
+    const pleaseWork = document.querySelector('.boom');
     const artistDisplay = document.querySelector('.artist');
 
     let songList = JSON.parse(document.body.dataset.songs);
@@ -83,15 +86,20 @@
         const name = filename.replace('.mp3', '');
         upcomingSongDisplay.textContent = name;
 
-        upcomingSongDisplay.style.animation = 
-            name.length > 18 ? 'scroll 10s linear infinite' : 'none';
+        console.log(upcomingSongDisplay.style.animation = 
+            name.length > 18 ? 'scroll 10s linear infinite' : 'none');
     }
 
     function updatePlayer([filename, artist, cover]) {
+        console.log("HIIII")
         audio.src = `/static/music/${filename}`;
         titleDisplay.textContent = filename.replace('.mp3', '');
         artistDisplay.textContent = artist;
         coverImage.src = `/static/cover/${cover}`;
+
+        console.log(void titleDisplay.offsetWidth);
+        console.log(titleDisplay.style.animation = 
+            titleDisplay.textContent.length > 22 ? 'scroll 10s linear infinite' : 'none');
     }
 
     function formatTime(seconds) {

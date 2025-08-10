@@ -55,6 +55,11 @@ h1 {
 .title{
     color: var(--color3);
     font-size: 60px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: left;
 }
 .artist{
     font-size: 30px;
@@ -213,16 +218,29 @@ h1 {
     margin: 0 10px;
 }
 
-.upcoming-song {
+.upcoming-song, .boom {
     overflow: hidden;
     white-space: nowrap;
     position: relative;
 }
 
-.upcoming-song h1 {
+.upcoming-song h1{
     display: inline-block;
     position: absolute;
     animation: scroll 10s linear infinite; /* Adjust the duration (10s) as needed */
+}
+
+.title{
+    color: var(--color3);
+    font-size: 60px;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    /* animation: scroll 10s linear infinite; */
+}
+
+.boom{
+    height: 72.5px;
 }
 
 @keyframes scroll {
