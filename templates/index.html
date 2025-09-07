@@ -13,7 +13,7 @@
 </head>
 <body data-songs='{{ songs|tojson }}' data-current-index='0'>
     <div class="main">
-        <div class="poster"><img id="coverImage" src="/static/cover/{{ current_song[2] }}" alt="Cover" style="height: 30em; width: 30em; border-radius: 20px;"></div>
+        <div class="poster"><img id="coverImage" src="/static/cover/{{ current_song[2] }}" alt="Cover"></div>
         <div class="card">
             <div class="boom">
                 <h1 class="title">{{ current_song[0]|replace('.mp3', '') }}</h1>
@@ -46,7 +46,7 @@
                 </div>
                 <div style="height: auto; width: 10%;"></div>
                 <div class="volume-control">
-                    <label for="volumeSlider" style="background-image: url(/static/images/volume.png); background-size: contain; background-position: center; height: 25px; width: 25px; border-radius: 25px;"></label>
+                    <label for="volumeSlider" class="volume-img"></label>
                     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
                 </div>  
             </div>                              

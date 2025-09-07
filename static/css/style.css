@@ -293,3 +293,120 @@ button:hover {
         transform: translateY(-200px) rotate(360deg);
     }
 }
+
+#coverImage {
+    height: 30em; width: 30em; border-radius: 20px;
+}
+
+.volume-img {
+    background-image: url(/static/images/volume.png); 
+    background-size: contain; 
+    background-position: center; 
+    height: 25px; 
+    width: 25px; 
+    border-radius: 25px;
+}
+
+@media (max-width: 786px) {
+    .poster {
+        display: none;
+    }
+    .card {
+        margin-left: 0;
+        height:auto;
+        width: 280px;
+        background-color: var(--color2);
+        border-radius: 50px;
+        padding-bottom: 30px;
+        padding-top: 30px;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    body {
+        background-color: var(--bg-color);
+        padding: 15px;
+        font-family: var(--font-name);
+        padding: 0;
+        margin: 0;
+        height: auto;
+    }
+
+    .main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-right: 0;
+    }
+    
+    .title{
+        color: var(--color3);
+        font-size: 40px;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: left;
+        align-items: left;
+    }
+    .artist{
+        font-size: 20px;
+        color: var(--bg-color);
+        position: relative;
+        top: -20px;
+    }
+    .player {
+        width: 100%;
+        max-width: 500px;
+        margin: 20px auto;
+        margin-left: 0 auto;
+        position: relative;
+        top: -25px;
+    }
+    #currentTime, #duration {
+        font-size: 12.5px;
+    }
+    .controls {
+        position: relative;
+        top: -40px;
+    }
+    .hr { 
+        position: relative;
+        top: -40px;
+    }
+    .next {
+        position: relative;
+        top: -45px;
+        font-size: 13px;
+    }
+    
+    #volumeSlider {
+        width: 50px;
+        appearance: none;
+        height: 5px;
+        background: var(--color2);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #volumeSlider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12.5px;
+        height: 12.5px;
+        background: var(--color3);
+        border-radius: 50%;
+        border: none;
+    }
+
+    #volumeSlider::-moz-range-thumb {
+        width: 12.5px;
+        height: 12.5px;
+        background: var(--color3);
+        border-radius: 50%;
+        border: none;
+    }
+
+    .volume-img {
+        height: 17.5px; 
+        width: 17.5px; 
+    }
+}
